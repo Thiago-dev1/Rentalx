@@ -6,7 +6,7 @@ class CreateCategoryController {
 
     constructor(private createCategoryUseCase: CreateCategoryUseCase) {}
   
-    handle(req: Request, res: Response) {
+    handle(req: Request, res: Response): Response {
         const { name, description } = req.body
 
         this.createCategoryUseCase.execute({name, description})

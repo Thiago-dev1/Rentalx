@@ -1,3 +1,4 @@
+import { listCategoriesController } from "../modules/cars/useCases/listCategories";
 import { Router } from "express";
 
 import { CategoriesRepository } from "../modules/cars/repositories/CategoriesRepository";
@@ -12,9 +13,7 @@ categoriesRoutes.post("/", (req, res) => {
 })
 
 categoriesRoutes.get("/", (req, res) => {
-    const all = categoriesRepository.list()
-
-    res.json(all)
+    return listCategoriesController.handle(req, res)
 })
 
 export { categoriesRoutes }
