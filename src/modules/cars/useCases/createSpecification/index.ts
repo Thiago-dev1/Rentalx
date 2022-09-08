@@ -3,7 +3,7 @@ import { CreateSpeficificationController } from "./CreateSpecificationController
 import { CreateSpeficificationUseCase } from "./CreateSpecificationUseCase";
 
 
-const specificationRepository = new SpecificationsRepository()
+const specificationRepository = SpecificationsRepository.getInstance()
 const createSpecificationUseCase = new CreateSpeficificationUseCase(specificationRepository)
 const createSpecificationController = new CreateSpeficificationController(createSpecificationUseCase)
 
