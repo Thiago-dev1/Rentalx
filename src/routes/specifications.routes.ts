@@ -1,5 +1,6 @@
 import { SpecificationsRepository } from "../modules/cars/repositories/SpecificationsRepository";
-import { CreateCategoryService } from "../modules/cars/services/CreateCategoryService";
+import { CreateSpeficificationService } from "../modules/cars/services/CreateSpecificationService";
+
 import { Router } from "express";
 
 const specificationsRoutes = Router()
@@ -9,7 +10,7 @@ const specificationsRepository = new SpecificationsRepository()
 specificationsRoutes.post("/", (req, res) => {
     const { name, description } = req.body
 
-    const createSpecificationService = new CreateCategoryService(specificationsRepository)
+    const createSpecificationService = new CreateSpeficificationService(specificationsRepository)
 
     createSpecificationService.execute({name, description})
 
