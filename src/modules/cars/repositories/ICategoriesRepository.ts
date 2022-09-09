@@ -9,7 +9,7 @@ interface ICreateCategoryDTO {
 interface ICategoriesRepository {
     findByName(name: string): Category;
     list(): Category[];
-    create({name, description}: ICreateCategoryDTO)
+    create({name, description}: ICreateCategoryDTO): Category
 }
 
 export {ICategoriesRepository, ICreateCategoryDTO}
