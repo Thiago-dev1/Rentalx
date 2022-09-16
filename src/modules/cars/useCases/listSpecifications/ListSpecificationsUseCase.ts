@@ -5,8 +5,8 @@ import { Specification } from "../../model/Specification";
 class ListSpecificationsUseCase {
     constructor(private specificationRepository: ISpecificationsRepository) {}
 
-    execute(): Specification[] {
-        const specifications = this.specificationRepository.list()
+    async execute() {
+        const specifications = await this.specificationRepository.list()
         
         return specifications
     }

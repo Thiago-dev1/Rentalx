@@ -1,3 +1,4 @@
+import { SpecificationsRepository } from "@modules/cars/repositories/implementations/SpecificationsRepository";
 import { ISpecificationsRepository } from "../../repositories/ISpecificationsRepository";
 
 interface IRequest {
@@ -6,12 +7,12 @@ interface IRequest {
 }
 
 class CreateSpeficificationUseCase {
-    constructor(private specificationsRepository: ISpecificationsRepository) {}
+    constructor(private specificationsRepository: SpecificationsRepository) {}
 
-    execute({name, description}: IRequest): void {
-        const specificationAlreadyExists = this.specificationsRepository.findByName(name)
+   async execute({name, description}: IRequest) {
+        const specificationAlreadyExists = await this.specificationsRepository.findByName(name)
 
-        if (specificationAlreadyExists) {
+        if (specificationAlreadyExists === 1) {
             throw new Error ("Category already exists")
          }
      

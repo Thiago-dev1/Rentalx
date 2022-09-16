@@ -1,14 +1,15 @@
 import { Specification } from "../../model/Specification";
 import { ICreateSpecificationDTO, ISpecificationsRepository } from "../ISpecificationsRepository";
 
+import {PrismaClient} from "@prisma/client"
 
-class SpecificationsRepository implements ISpecificationsRepository {
-    private specifications: Specification[]
+class SpecificationsRepository {
+    private prisma: any
 
     private static INSTANCE: SpecificationsRepository
 
     private constructor () {
-        this.specifications= []
+        this.prisma = new PrismaClient()
     }
 
     public static getInstance(): SpecificationsRepository {
@@ -19,25 +20,36 @@ class SpecificationsRepository implements ISpecificationsRepository {
         return SpecificationsRepository.INSTANCE
     }
 
-    create({ name, description }: ICreateSpecificationDTO): void {
-        const specification = new Specification()
-
-        Object.assign(specification, {
-            name,
-            description,
-            create_at: new Date()
+    async create({ name, description }: ICreateSpecificationDTO){
+        await this.prisma.specification.create({
+            data: {
+                name: name,
+                description: description
+            }
         })
-
-        this.specifications.push(specification)
     }
 
-    list(): Specification[] {
-        return this.specifications
+    async list(){
+        const specifications =  await this.prisma.specification.findMany({
+            select: {
+                name: true,
+                description: true
+            }
+        })
+        
+        return specifications
     }
 
-    findByName(name: string): Specification {
-         const specification = this.specifications.find(specification => specification.name === name)
-         return specification
+    async findByName(name: string) {
+        const specification = await this.prisma.specification.findMany({
+            select: {
+                name: true
+            },
+            where: {
+                name
+            }
+        })
+        return specification.length
     }   
 }
 
