@@ -6,21 +6,14 @@ import {PrismaClient} from "@prisma/client"
 class SpecificationsRepository {
     private prisma: PrismaClient
 
-    private static INSTANCE: SpecificationsRepository
 
-    private constructor () {
+    constructor () {
         this.prisma = new PrismaClient()
     }
 
-    public static getInstance(): SpecificationsRepository {
-        if (!SpecificationsRepository.INSTANCE){
-            SpecificationsRepository.INSTANCE = new SpecificationsRepository()
-        }
 
-        return SpecificationsRepository.INSTANCE
-    }
 
-    async create({ name, description }: ICreateSpecificationDTO){
+    async create({ name, description }: ICreateSpecificationDTO) : Promise<void>{
         await this.prisma.specification.create({
             data: {
                 name: name,

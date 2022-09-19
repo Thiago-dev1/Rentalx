@@ -1,9 +1,9 @@
-import { ISpecificationsRepository } from "../../repositories/ISpecificationsRepository";
-import { Specification } from "../../model/Specification";
+
+import { SpecificationsRepository } from "@modules/cars/repositories/implementations/SpecificationsRepository";
 
 
 class ListSpecificationsUseCase {
-    constructor(private specificationRepository: ISpecificationsRepository) {}
+    constructor(private specificationRepository: SpecificationsRepository) {}
 
     async execute() {
         const specifications = await this.specificationRepository.list()
