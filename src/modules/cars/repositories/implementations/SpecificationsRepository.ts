@@ -4,7 +4,7 @@ import { ICreateSpecificationDTO, ISpecificationsRepository } from "../ISpecific
 import {PrismaClient} from "@prisma/client"
 
 class SpecificationsRepository {
-    private prisma: any
+    private prisma: PrismaClient
 
     private static INSTANCE: SpecificationsRepository
 
