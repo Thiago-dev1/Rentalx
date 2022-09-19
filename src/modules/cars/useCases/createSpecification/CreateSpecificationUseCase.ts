@@ -1,13 +1,17 @@
-import { SpecificationsRepository } from "@modules/cars/repositories/implementations/SpecificationsRepository";
-import { ISpecificationsRepository } from "../../repositories/ISpecificationsRepository";
+import { inject, injectable } from "tsyringe"
+import { SpecificationsRepository } from "../../repositories/implementations/SpecificationsRepository";
+
 
 interface IRequest {
     name: string,
     description: string
 }
 
+@injectable()
 class CreateSpeficificationUseCase {
-    constructor(private specificationsRepository: SpecificationsRepository) {}
+    constructor(
+        @inject("SpecificationsRepository")
+        private specificationsRepository: SpecificationsRepository) {}
 
    async execute({name, description}: IRequest) {
         const specificationAlreadyExists = await this.specificationsRepository.findByName(name)
