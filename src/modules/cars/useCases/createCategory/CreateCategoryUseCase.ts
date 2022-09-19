@@ -1,4 +1,5 @@
-import { CategoriesRepository } from "@modules/cars/repositories/implementations/CategoriesRepository"
+import { inject, injectable } from "tsyringe"
+import { CategoriesRepository } from "../../repositories/implementations/CategoriesRepository"
 import { ICategoriesRepository } from "../../repositories/ICategoriesRepository"
 
 
@@ -7,8 +8,11 @@ interface IRequest {
     description: string
 }
 
+@injectable()
 class CreateCategoryUseCase {
-    constructor(private categoriesRepository: CategoriesRepository) {}
+    constructor(
+        @inject("CategoriesRepository")
+        private categoriesRepository: CategoriesRepository) {}
 
    async execute({name, description}: IRequest){
         const categoryAlreadyExists = await this.categoriesRepository.findByName(name)
