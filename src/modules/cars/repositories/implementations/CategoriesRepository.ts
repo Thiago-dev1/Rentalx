@@ -7,18 +7,11 @@ import {PrismaClient} from "@prisma/client"
 class CategoriesRepository {
     private prisma: PrismaClient
 
-    private static INSTANCE: CategoriesRepository
 
-    private constructor() {
+    constructor() {
         this.prisma = new PrismaClient()
     }
 
-    public static getInstance(): CategoriesRepository {
-        if (!CategoriesRepository.INSTANCE) {
-            CategoriesRepository.INSTANCE = new CategoriesRepository()
-        }
-        return CategoriesRepository.INSTANCE
-    }
 
    async create({ name, description }: ICreateCategoryDTO): Promise<void> {
         await this.prisma.category.create({
