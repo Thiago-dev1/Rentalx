@@ -25,8 +25,10 @@ class CategoriesRepository {
     async list() {
         const categories = await this.prisma.category.findMany({
             select: {
+                id: true,
                 name: true,
-                description: true
+                description: true,
+                createdAt: true
             }
         })
         
