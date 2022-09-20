@@ -1,20 +1,14 @@
 import { Category } from "../../model/Category";
 import {ICategoriesRepository, ICreateCategoryDTO} from "../ICategoriesRepository"
 
-import {PrismaClient} from "@prisma/client"
+import { prisma } from "../../../../database/prismaClient" 
 
 
-class CategoriesRepository {
-    private prisma: PrismaClient
-
-
-    constructor() {
-        this.prisma = new PrismaClient()
-    }
+class CategoriesRepository implements ICategoriesRepository {
 
 
    async create({ name, description }: ICreateCategoryDTO): Promise<void> {
-        await this.prisma.category.create({
+        await prisma.category.create({
             data: {
                 name: name,
                 description: description
@@ -22,8 +16,8 @@ class CategoriesRepository {
         })
     }
 
-    async list() {
-        const categories = await this.prisma.category.findMany({
+    async list():Promise<Category[]> {
+        const categories = await prisma.category.findMany({
             select: {
                 id: true,
                 name: true,
@@ -35,8 +29,8 @@ class CategoriesRepository {
         return categories
     }
 
-    async findByName(name: string) {
-        const category = await this.prisma.category.findMany({
+    async findByName(name: string): Promise<Category> {
+        const category = await prisma.category.findFirst({
             select: {
                 name: true
             },
@@ -44,7 +38,7 @@ class CategoriesRepository {
                 name
             }
         })
-        return category.length
+        return category
     }
 }
 

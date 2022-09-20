@@ -6,12 +6,12 @@ import { ImportCategoriesUseCase } from "./ImportCategoriesUseCase"
 class ImportCategoriesController {
 
 
-    handle(req: Request, res: Response): Response {
+    async handle(req: Request, res: Response): Promise<Response> {
         const { file } = req
 
         const importCategoriesUseCase = container.resolve(ImportCategoriesUseCase)
 
-        importCategoriesUseCase.execute(file)
+        await importCategoriesUseCase.execute(file)
     
         return res.status(201).send()
     }
