@@ -20,7 +20,11 @@ class UsersRepository implements IUsersRepository {
    async findByEmail(email: string): Promise<User> {
         const user =  await prisma.users.findFirst({
             select: {
-                email: true
+                email: true,
+                password: true,
+                id: true,
+                name: true,
+                driverLicense: true
             },
             where: {
                 email
