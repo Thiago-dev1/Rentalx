@@ -1,4 +1,4 @@
-import { Specification } from "../../entities/Specification";
+import { Specification } from "@prisma/client"
 import { ICreateSpecificationDTO, ISpecificationsRepository } from "../ISpecificationsRepository";
 
 import { prisma } from "../../../../database/prismaClient" 
@@ -16,21 +16,13 @@ class SpecificationsRepository implements ISpecificationsRepository {
     }
 
     async list(): Promise<Specification[]>{
-        const specifications =  await prisma.specification.findMany({
-            select: {
-                name: true,
-                description: true
-            }
-        })
+        const specifications =  await prisma.specification.findMany({})
         
         return specifications
     }
 
     async findByName(name: string): Promise<Specification> {
         const specification = await prisma.specification.findFirst({
-            select: {
-                name: true
-            },
             where: {
                 name
             }

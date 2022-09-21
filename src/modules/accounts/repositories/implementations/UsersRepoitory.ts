@@ -1,8 +1,9 @@
+import { Users } from "@prisma/client"
 import { IUsersRepository } from "../IUsersRepository"
 import { ICreateUserDTO } from "../../dtos/ICreateUserDTO"
 
 import { prisma } from "../../../../database/prismaClient" 
-import { User } from "@modules/accounts/entities/User"
+
 
 class UsersRepository implements IUsersRepository {
 
@@ -17,15 +18,8 @@ class UsersRepository implements IUsersRepository {
         })
     }
 
-   async findByEmail(email: string): Promise<User> {
+   async findByEmail(email: string): Promise<Users> {
         const user =  await prisma.users.findFirst({
-            select: {
-                email: true,
-                password: true,
-                id: true,
-                name: true,
-                driverLicense: true
-            },
             where: {
                 email
             }
@@ -34,12 +28,8 @@ class UsersRepository implements IUsersRepository {
         return user
     }
 
-    async findById(id: string): Promise<User> {
+    async findById(id: string): Promise<Users> {
         const user = await prisma.users.findUnique({
-            select:{
-                id: true,
-                name: true
-            },
             where:{
                 id
             }

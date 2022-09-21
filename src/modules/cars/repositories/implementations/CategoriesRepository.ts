@@ -1,4 +1,4 @@
-import { Category } from "../../entities/Category";
+import { Category } from "@prisma/client"
 import {ICategoriesRepository, ICreateCategoryDTO} from "../ICategoriesRepository"
 
 import { prisma } from "../../../../database/prismaClient" 
@@ -17,23 +17,13 @@ class CategoriesRepository implements ICategoriesRepository {
     }
 
     async list():Promise<Category[]> {
-        const categories = await prisma.category.findMany({
-            select: {
-                id: true,
-                name: true,
-                description: true,
-                createdAt: true
-            }
-        })
+        const categories = await prisma.category.findMany({})
         
         return categories
     }
 
     async findByName(name: string): Promise<Category> {
         const category = await prisma.category.findFirst({
-            select: {
-                name: true
-            },
             where: {
                 name
             }
