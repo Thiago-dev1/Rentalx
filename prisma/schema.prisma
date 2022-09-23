@@ -29,6 +29,7 @@ model Users {
   name          String
   password      String
   email         String   @unique
+  avatar        String?  
   driverLicense String
   isAdmin       Boolean  @default(false)
   createdAt     DateTime @default(now())

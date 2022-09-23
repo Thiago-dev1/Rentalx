@@ -6,6 +6,16 @@ import { prisma } from "../../../../database/prismaClient"
 
 
 class UsersRepository implements IUsersRepository {
+   async update(id: string, data: string): Promise<void> {
+        await prisma.users.update({
+            where: {
+                id
+            },
+            data: {
+                avatar: data
+            }
+        })
+    }
 
    async create({name, email, password, driverLicense}: ICreateUserDTO): Promise<void> {
         await prisma.users.create({
