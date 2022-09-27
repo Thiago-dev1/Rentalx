@@ -15,6 +15,7 @@ model Category {
   name        String
   description String
   createdAt   DateTime @default(now())
+  Car         Car[]
 }
 
 model Specification {
@@ -29,8 +30,24 @@ model Users {
   name          String
   password      String
   email         String   @unique
-  avatar        String?  
+  avatar        String?
   driverLicense String
   isAdmin       Boolean  @default(false)
   createdAt     DateTime @default(now())
+}
+
+model Car {
+  id            String   @id @default(uuid())
+  name          String
+  description   String
+  dailyRate     Int
+  available     Boolean  @default(true)
+  license_plate String
+  fine_amount   Int
+  brand         String
+  Category      Category? @relation(fields: [category_id], references: [id], onDelete: SetNull, onUpdate: SetNull)
+  category_id   String?   
+  createdAt     DateTime @default(now())
+
+  @@map("cars")
 }
