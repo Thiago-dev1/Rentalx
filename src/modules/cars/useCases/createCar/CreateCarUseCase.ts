@@ -6,10 +6,10 @@ import { ICreateCarDTO } from "../../dto/ICreateCarDTO"
 
 import { AppError } from "../../../../errors/AppError"
 
-// @injectable()
+@injectable()
 class CreateCarUseCase {
     constructor(
-        // @inject("CarsRepository")
+        @inject("CarsRepository")
         private carsRepository: ICarsRepository
     ) {}
 
