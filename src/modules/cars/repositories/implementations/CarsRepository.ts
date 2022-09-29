@@ -6,7 +6,7 @@ import { prisma } from "../../../../database/prismaClient"
 
 
 class CarsRepository implements ICarsRepository {
-    
+
     async create(data: ICreateCarDTO): Promise<Car> {
         const car = await prisma.car.create({
             data: {
@@ -23,6 +23,37 @@ class CarsRepository implements ICarsRepository {
         return car
     }
 
+    async createCarSpecification(car_id: string, specification_id: string): Promise<void> {
+        // verificando se já existe o carro com a especificação
+        const [car] = await prisma.specificationsCars.findMany({
+            where: {
+                car_id,
+                specification_id
+            }
+        })
+
+        // se não existir irá criar...
+
+        if(!car) {
+            await prisma.specificationsCars.create({
+                data: {
+                    car_id,
+                    specification_id
+                }
+            })
+        }
+    }
+
+    async findById(car_id: string): Promise<Car> {
+        const car = await prisma.car.findUnique({
+            where: {
+                id: car_id
+            }
+        })
+
+        return car
+    }
+
     async findByAvailable(brand?: string, category_id?: string, name?: string): Promise<Car[]> {
         const cars = prisma.car.findMany({
             where: {
@@ -30,6 +61,9 @@ class CarsRepository implements ICarsRepository {
                 brand,
                 category_id,
                 name
+            },
+            include: {
+                SpecificationsCars: true
             }
         })
 

@@ -30,8 +30,6 @@
 ### Requisitos Funcionais
 
 - Deve ser possivel cadastrar especificações para um carro.
-- Deve ser possivel listar todas as especificações.
-- Deve ser possível listar todos os carros
 
 ### Regras de Negócio
 
