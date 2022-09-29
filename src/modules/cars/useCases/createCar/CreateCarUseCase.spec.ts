@@ -1,5 +1,5 @@
 
-
+import "reflect-metadata"
 import { AppError } from "../../../../errors/AppError"
 
 import { CreateCarUseCase } from "./CreateCarUseCase"
