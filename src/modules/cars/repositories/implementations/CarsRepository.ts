@@ -6,6 +6,17 @@ import { prisma } from "../../../../database/prismaClient"
 
 
 class CarsRepository implements ICarsRepository {
+    
+   async updateAvailable(car_id: string, available: boolean): Promise<void> {
+        await prisma.car.update({
+            where: {
+                id: car_id
+            },
+            data: {
+                available
+            }
+        })
+    }
 
     async create(data: ICreateCarDTO): Promise<Car> {
         const car = await prisma.car.create({

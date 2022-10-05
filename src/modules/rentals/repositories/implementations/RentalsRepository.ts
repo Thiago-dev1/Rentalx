@@ -5,11 +5,36 @@ import { IRentalsRepository } from "../IRentalsRepository"
 import { Rentals } from "@prisma/client"
 
 class RentalsRepository implements IRentalsRepository {
+    
+    async updateRental(id: string ,end_date: Date, total: number): Promise<Rentals> {
+       const rental = await prisma.rentals.update({
+            where: {
+                id
+            },
+            data: {
+                end_date,
+                total
+            }
+        })
+
+        return rental
+    }
+    
+    async findById(id: string): Promise<Rentals> {
+        const rental = await prisma.rentals.findUnique({
+            where: {
+                id
+            }
+        })
+
+        return rental
+    }
    
     async findOpenRentalByUser(user_id: string): Promise<Rentals> {
         const rentalByUser = await prisma.rentals.findFirst({
             where: {
-                user_id
+                user_id,
+                end_date: null
             }
         })
 
@@ -19,7 +44,8 @@ class RentalsRepository implements IRentalsRepository {
     async findOpenRentalByCar(car_id: string) {
         const rentalByCar = await prisma.rentals.findFirst({
             where: {
-                car_id
+                car_id,
+                end_date: null
             }
         })
 
