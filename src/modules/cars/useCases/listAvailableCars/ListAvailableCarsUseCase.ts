@@ -10,6 +10,7 @@ interface IRequest {
     brand?: string,
     category_id?: string,
     name?: string
+    license_plate?: string
 }
 
 @injectable()
@@ -19,8 +20,8 @@ class ListAvailableCarsUseCase {
         private carsRepository: ICarsRepository
     ) { }
 
-    async execute({brand, category_id, name}: IRequest): Promise<Car[]> {
-        const cars = await this.carsRepository.findByAvailable(brand, category_id, name)
+    async execute({brand, category_id, name, license_plate}: IRequest): Promise<Car[]> {
+        const cars = await this.carsRepository.findByAvailable(brand, category_id, name, license_plate)
 
         if(cars.length === 0) {
             throw new AppError("No car found")

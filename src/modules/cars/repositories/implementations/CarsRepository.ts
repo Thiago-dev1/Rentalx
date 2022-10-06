@@ -65,13 +65,14 @@ class CarsRepository implements ICarsRepository {
         return car
     }
 
-    async findByAvailable(brand?: string, category_id?: string, name?: string): Promise<Car[]> {
+    async findByAvailable(brand?: string, category_id?: string, name?: string, license_plate?: string): Promise<Car[]> {
         const cars = prisma.car.findMany({
             where: {
                 available: true,
                 brand,
                 category_id,
-                name
+                name,
+                license_plate
             },
             include: {
                 SpecificationsCars: true
