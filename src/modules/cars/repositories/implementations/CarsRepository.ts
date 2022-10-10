@@ -75,7 +75,11 @@ class CarsRepository implements ICarsRepository {
                 license_plate
             },
             include: {
-                SpecificationsCars: true
+                SpecificationsCars: {
+                    include: {
+                        Specification: true
+                    }
+                }
             }
         })
 

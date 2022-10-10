@@ -9,6 +9,9 @@ class RentalsRepository implements IRentalsRepository {
         const rentals = await prisma.rentals.findMany({
             where: {
                 user_id
+            },
+            include: {
+                Car: true
             }
         })
 
