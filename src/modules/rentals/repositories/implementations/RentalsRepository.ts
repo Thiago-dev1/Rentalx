@@ -5,6 +5,15 @@ import { IRentalsRepository } from "../IRentalsRepository"
 import { Rentals } from "@prisma/client"
 
 class RentalsRepository implements IRentalsRepository {
+   async findByUser(user_id: string): Promise<Rentals[]> {
+        const rentals = await prisma.rentals.findMany({
+            where: {
+                user_id
+            }
+        })
+
+        return rentals
+    }
     
     async updateRental(id: string ,end_date: Date, total: number): Promise<Rentals> {
        const rental = await prisma.rentals.update({

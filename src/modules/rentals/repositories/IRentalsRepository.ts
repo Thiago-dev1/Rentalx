@@ -8,6 +8,7 @@ interface IRentalsRepository {
     findOpenRentalByUser(user_id: string): Promise<Rentals>
     findOpenRentalByCar(car_id: string): Promise<Rentals>
     findById(id: string): Promise<Rentals>
+    findByUser(user_id: string): Promise<Rentals[]>
     updateRental(id: string,end_date: Date, total: number): Promise<Rentals>
 }
 

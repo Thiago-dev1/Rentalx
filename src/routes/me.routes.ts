@@ -7,8 +7,7 @@ const meRoutes = Router()
 
 const getUserByTokenController = new GetUserByTokenController()
 
-meRoutes.use(ensureAuthenticated)
-meRoutes.get('/me', getUserByTokenController.handle)
+meRoutes.get('/me', ensureAuthenticated, getUserByTokenController.handle)
 
 
 export { meRoutes }
