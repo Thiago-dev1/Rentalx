@@ -26,7 +26,7 @@ class CreateUserUseCase {
             name, 
             email, 
             password: passwordHash, 
-            driverLicense
+            driverLicense: String(driverLicense)
         })
     }
 }
