@@ -47,7 +47,7 @@ class CreateRentalUseCase {
 
         await this.rentalsRepository.create({
             user_id, car_id, expected_return_date
-        })
+        })  
 
         await this.carsRepository.updateAvailable(car_id, false)
     }

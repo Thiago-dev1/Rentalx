@@ -65,7 +65,7 @@ class RentalsRepository implements IRentalsRepository {
     }
 
     async create({ user_id, car_id, expected_return_date }: ICreatedRentalsDTO): Promise<void> {
-       const test = await prisma.rentals.create({
+        await prisma.rentals.create({
             data: {
                 user_id,
                 car_id,
