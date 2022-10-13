@@ -3,6 +3,9 @@ import { compare } from "bcrypt"
 import { sign } from "jsonwebtoken"
 
 import { IUsersRepository } from "../../repositories/IUsersRepository"
+import { IUsersTokensRepository } from "../../repositories/IUsersTokensRepository"
+import { IDateProvider } from "../../../../shared/providers/DateProvaider/IDateProvider"
+
 import { AppError } from "../../../../errors/AppError";
 
 
@@ -16,14 +19,19 @@ interface IResponse {
         name: string,
         email: string
     };
-    token: string
+    token: string,
+    refresh_token: string
 }
 
 @injectable()
 class AuthenticateUserUseCase {
     constructor(
         @inject("UsersRepository")
-        private userRepository: IUsersRepository
+        private userRepository: IUsersRepository,
+        @inject("UsersTokensRepository")
+        private usersTokensRepository: IUsersTokensRepository,
+        @inject("DayjsDateProvider")
+        private dateProvider: IDateProvider
     ) {}
 
     async execute({email, password}: IRequest): Promise<IResponse> {
@@ -39,13 +47,27 @@ class AuthenticateUserUseCase {
             throw new  AppError("Email or password incorrect!", 401)
         }
 
-        const token = sign({},  "b0d0f0fcccf4f45e6c4474bb3d58d128", {
+        const token = sign({},  process.env.SECRET_TOKEN, {
             subject: user.id,
-            expiresIn: "1d",
+            expiresIn: process.env.EXP_IN_TOKEN,
         })
 
-        const tokenReturn: IResponse ={
+        const refresh_token = sign({email}, process.env.SECRET_REFRESH_TOKEN, {
+            subject: user.id,
+            expiresIn: process.env.EXP_IN_TREFRESH_OKEN
+        })
+
+        const refresh_token_expires_date = this.dateProvider.addDays(30)
+
+        await this.usersTokensRepository.create({
+            user_id: user.id,
+            refresh_token,
+            expires_date: refresh_token_expires_date
+        })
+
+        const tokenReturn: IResponse = {
             token,
+            refresh_token,
             user: {
                 name: user.name,
                 email: user.email
