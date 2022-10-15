@@ -12,6 +12,7 @@ interface IPayload {
 export async function ensureAuthenticated(req: Request, res: Response, next: NextFunction) {
 
     const authHeader = req.headers.authorization
+    
 
     const usersTokensRepository = new UsersTokensRepository()
 
@@ -23,15 +24,13 @@ export async function ensureAuthenticated(req: Request, res: Response, next: Nex
 
 
     try {
-        const { sub: user_id } = verify(token, process.env.SECRET_REFRESH_TOKEN) as IPayload
+        const { sub: user_id } = verify(token, process.env.SECRET_TOKEN) as IPayload
 
-        
+        // const user = usersTokensRepository.findByUserIdAndRefreshToken(user_id, token)
 
-        const user = usersTokensRepository.findByUserIdAndRefreshToken(user_id, token)
-
-        if(!user) {
-            throw new AppError("User does not exists!")
-        }
+        // if(!user) {
+        //     throw new AppError("User does not exists!")
+        // }
 
         req.user = {
             id: user_id
@@ -39,6 +38,6 @@ export async function ensureAuthenticated(req: Request, res: Response, next: Nex
 
         next()
     } catch {
-        throw new AppError("Invalid token!")
+        throw new AppError("Token expired", 401)
     }
 }

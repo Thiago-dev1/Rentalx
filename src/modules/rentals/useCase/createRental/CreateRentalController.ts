@@ -7,7 +7,8 @@ class CreateRentalController {
 
     async handle(req: Request, res: Response): Promise<Response> {
         const { id } = req.user
-        const { car_id, expected_return_date  } = req.body
+        const { car_id, expected_return_date } = req.body
+
 
         const createRentalUseCase = container.resolve(CreateRentalUseCase)
 

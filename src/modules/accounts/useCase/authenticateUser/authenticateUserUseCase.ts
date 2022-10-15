@@ -54,7 +54,7 @@ class AuthenticateUserUseCase {
 
         const refresh_token = sign({email}, process.env.SECRET_REFRESH_TOKEN, {
             subject: user.id,
-            expiresIn: process.env.EXP_IN_TREFRESH_OKEN
+            expiresIn: process.env.EXP_IN_REFRESH_TOKEN
         })
 
         const refresh_token_expires_date = this.dateProvider.addDays(30)
