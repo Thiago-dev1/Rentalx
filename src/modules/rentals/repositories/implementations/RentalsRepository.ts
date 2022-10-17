@@ -47,6 +47,9 @@ class RentalsRepository implements IRentalsRepository {
             where: {
                 user_id,
                 end_date: null
+            },
+            include:{
+                Car: true
             }
         })
 
